@@ -55,7 +55,7 @@
   .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:13px;gap:8px;flex-wrap:wrap}
   .pill{background:var(--ink);color:var(--paper);padding:5px 12px;border-radius:20px;font-weight:700;font-size:12px;letter-spacing:.08em}
   .scorepill{background:var(--green);color:#fff}
-  .rolepill{background:var(--blue);color:#fff}
+  .rolepill{background:var(--ink);color:#fff}
   .qcount{font-family:'Fraunces',serif;font-weight:900;font-size:13px;color:var(--gold-deep)}
 
   /* Waiting-for-partner banner */
@@ -68,10 +68,10 @@
 
   .type-tag{font-family:'Fraunces',serif;font-weight:900;font-size:20px;margin-bottom:18px;color:var(--gold-deep)}
   .clause{margin-bottom:20px;border-radius:11px;padding:14px;border:2px dashed transparent;transition:border .15s,background .15s}
-  .clause.mine{border-color:var(--blue);background:rgba(47,109,158,.07)}
+  .clause.mine{border-color:var(--ink);background:rgba(26,20,16,.05)}
   .clause.theirs{opacity:.78}
   .clause .who{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:7px}
-  .clause.mine .who{color:var(--blue)} .clause.theirs .who{color:var(--gold-deep)}
+  .clause.mine .who{color:var(--ink)} .clause.theirs .who{color:var(--gold-deep)}
   .clause .ctxt{font-family:'Fraunces',serif;font-weight:400;font-size:17px;line-height:1.7;color:#000}
   .blank{display:inline-block;min-width:96px;border-bottom:3px solid var(--gold);text-align:center;font-weight:600;color:#000;padding:0 4px}
   .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
@@ -153,7 +153,6 @@
 
     <div class="feedback" id="feedback"></div>
     <button class="btn" id="submitBtn">Submit My Answer</button>
-    <button class="btn ghost hide" id="nextBtn">Next Question →</button>
   </section>
 
   <!-- DONE -->
@@ -201,13 +200,13 @@ const FALLBACK = [
    cause:{lead:"When a network paradigm",tail:""},result:{lead:"old vulnerabilities frequently",tail:""},
    _c:"shifts",_r:"reappear",cOpts:["shifts", "shifted", "had shifted", "would shift"],rOpts:["reappear", "reappeared", "will reappear", "would reappear"]},
   {id:"q7",type:"Type 0 (General Truth)",
-   cause:{lead:"Without proper",tail:""},result:{lead:"the firewall always",tail:"on incoming connections"},
-   _c:"authorization",_r:"pulls the plug",cOpts:["authorization", "authorized", "authorizing", "to authorize"],rOpts:["pulls the plug", "pulled the plug", "will pull the plug", "would pull the plug"]},
+   cause:{lead:"Unless a user",tail:"proper authorization"},result:{lead:"the firewall always",tail:"on incoming connections"},
+   _c:"has",_r:"pulls the plug",cOpts:["has", "had", "had had", "would have"],rOpts:["pulls the plug", "pulled the plug", "will pull the plug", "would pull the plug"]},
   {id:"q8",type:"Type 0 (General Truth)",
    cause:{lead:"Supposing a virus",tail:"the core"},result:{lead:"it always",tail:"automatic lockdown"},
    _c:"infiltrates",_r:"brings about",cOpts:["infiltrates", "infiltrated", "had infiltrated", "would infiltrate"],rOpts:["brings about", "brought about", "will bring about", "would bring about"]},
   {id:"q9",type:"Type 0 (General Truth)",
-   cause:{lead:"Imagine a system",tail:"no defenses"},result:{lead:"hackers",tail:"it instantly"},
+   cause:{lead:"Assuming a system",tail:"no defenses"},result:{lead:"hackers always",tail:"it instantly"},
    _c:"has",_r:"exploit",cOpts:["has", "had", "had had", "would have"],rOpts:["exploit", "exploited", "will exploit", "would exploit"]},
   {id:"q10",type:"Type 0 (General Truth)",
    cause:{lead:"On condition that the interface",tail:"streamlined"},result:{lead:"users rarely",tail:"errors"},
@@ -237,8 +236,8 @@ const FALLBACK = [
    cause:{lead:"Imagine the attackers",tail:"the backdoor"},result:{lead:"they",tail:"the system tonight"},
    _c:"find",_r:"will exploit",cOpts:["find", "found", "had found", "would find"],rOpts:["will exploit", "exploit", "would exploit", "had exploited"]},
   {id:"q19",type:"Type 1 (Real Future)",
-   cause:{lead:"Without immediate",tail:""},result:{lead:"this opaque policy",tail:"another breach soon"},
-   _c:"action",_r:"will bring about",cOpts:["action", "acted", "acting", "to act"],rOpts:["will bring about", "brings about", "would bring about", "had brought about"]},
+   cause:{lead:"Unless management",tail:"immediate action"},result:{lead:"this opaque policy",tail:"another breach soon"},
+   _c:"takes",_r:"will bring about",cOpts:["takes", "took", "had taken", "would take"],rOpts:["will bring about", "brings about", "would bring about", "had brought about"]},
   {id:"q20",type:"Type 1 (Real Future)",
    cause:{lead:"Unless the engineers",tail:"the vulnerability"},result:{lead:"the servers",tail:"before midnight"},
    _c:"patch",_r:"will crash",cOpts:["patch", "patched", "had patched", "would patch"],rOpts:["will crash", "crash", "would crash", "had crashed"]},
@@ -252,8 +251,8 @@ const FALLBACK = [
    cause:{lead:"If only the board",tail:"us to streamline the process"},result:{lead:"we",tail:"these risks much faster"},
    _c:"allowed",_r:"would mitigate",cOpts:["allowed", "allows", "had allowed", "will allow"],rOpts:["would mitigate", "will mitigate", "mitigate", "would have mitigated"]},
   {id:"q24",type:"Type 2 (Unreal Present)",
-   cause:{lead:"Without a robust infrastructure",tail:"us"},result:{lead:"GlobalNet",tail:"daily breaches"},
-   _c:"protecting",_r:"would face",cOpts:["protecting", "protects", "protected", "to protect"],rOpts:["would face", "will face", "faces", "would have faced"]},
+   cause:{lead:"Unless a robust infrastructure",tail:"us"},result:{lead:"GlobalNet",tail:"daily breaches"},
+   _c:"protected",_r:"would face",cOpts:["protected", "protects", "had protected", "will protect"],rOpts:["would face", "will face", "faces", "would have faced"]},
   {id:"q25",type:"Type 2 (Unreal Present)",
    cause:{lead:"Unless GlobalNet",tail:"completely offline"},result:{lead:"I",tail:"on our tracking operation"},
    _c:"were",_r:"wouldn't pull the plug",cOpts:["were", "is", "had been", "will be"],rOpts:["wouldn't pull the plug", "won't pull the plug", "didn't pull the plug", "wouldn't have pulled the plug"]},
@@ -285,8 +284,8 @@ const FALLBACK = [
    cause:{lead:"Imagine the CEO",tail:"instantly"},result:{lead:"they",tail:"the primary database"},
    _c:"had pulled the plug",_r:"might have saved",cOpts:["had pulled the plug", "pulled the plug", "pulls the plug", "would pull the plug"],rOpts:["might have saved", "might save", "saves", "saving"]},
   {id:"q35",type:"Type 3 (Unreal Past)",
-   cause:{lead:"Without his digital anonymity",tail:"his location"},result:{lead:"the authorities",tail:"him yesterday"},
-   _c:"masking",_r:"would have arrested",cOpts:["masking", "masked", "masks", "to mask"],rOpts:["would have arrested", "would arrest", "will arrest", "had arrested"]},
+   cause:{lead:"Supposing his digital anonymity",tail:"his location"},result:{lead:"the authorities",tail:"him yesterday"},
+   _c:"had not masked",_r:"would have arrested",cOpts:["had not masked", "did not mask", "does not mask", "would not mask"],rOpts:["would have arrested", "would arrest", "will arrest", "had arrested"]},
   {id:"q36",type:"Type 3 (Unreal Past)",
    cause:{lead:"Unless the insiders",tail:"the opaque passwords"},result:{lead:"the breach",tail:""},
    _c:"had leaked",_r:"would never have happened",cOpts:["had leaked", "leaked", "leak", "would leak"],rOpts:["would never have happened", "would never happen", "will never happen", "never happened"]},
@@ -315,8 +314,8 @@ const FALLBACK = [
    cause:{lead:"Assuming that they",tail:"the new paradigm early on"},result:{lead:"their security",tail:"so fragile today"},
    _c:"had adopted",_r:"would not be",cOpts:["had adopted", "adopted", "adopt", "would adopt"],rOpts:["would not be", "will not be", "would not have been", "is not"]},
   {id:"q45",type:"Mixed 3/2 (Past -> Present)",
-   cause:{lead:"Without the robust protocols they",tail:"last month"},result:{lead:"we",tail:"a massive data leak right now"},
-   _c:"installed",_r:"would be facing",cOpts:["installed", "install", "installing", "will install"],rOpts:["would be facing", "will be facing", "would have faced", "are facing"]},
+   cause:{lead:"Without the robust protocols",tail:"last month"},result:{lead:"we",tail:"a massive data leak right now"},
+   _c:"having been installed",_r:"would be facing",cOpts:["having been installed", "being installed", "to be installed", "installed"],rOpts:["would be facing", "will be facing", "would have faced", "are facing"]},
   {id:"q46",type:"Mixed 3/2 (Past -> Present)",
    cause:{lead:"Imagine the attackers",tail:"the vulnerability yesterday"},result:{lead:"the network",tail:"offline today"},
    _c:"had exploited",_r:"would be",cOpts:["had exploited", "exploited", "exploit", "would exploit"],rOpts:["would be", "will be", "would have been", "is"]},
@@ -346,13 +345,13 @@ const FALLBACK = [
    _c:"were",_r:"would have pulled the plug",cOpts:["were", "is", "had been", "will be"],rOpts:["would have pulled the plug", "would pull the plug", "pulled the plug", "will pull the plug"]},
   {id:"q55",type:"Mixed 2/3 (Present -> Past)",
    cause:{lead:"Assuming that their software",tail:"inherently flawed"},result:{lead:"it",tail:"the initial crash yesterday"},
-   _c:"is",_r:"would have brought about",cOpts:["is", "was", "had been", "will be"],rOpts:["would have brought about", "would bring about", "brings about", "will bring about"]},
+   _c:"were",_r:"would have brought about",cOpts:["were", "is", "was", "will be"],rOpts:["would have brought about", "would bring about", "brings about", "will bring about"]},
   {id:"q56",type:"Mixed 2/3 (Present -> Past)",
-   cause:{lead:"Without a robust and streamlined",tail:""},result:{lead:"the system",tail:"during yesterday's stress test"},
-   _c:"architecture",_r:"would have collapsed",cOpts:["architecture", "architected", "architecting", "to architect"],rOpts:["would have collapsed", "would collapse", "will collapse", "collapsed"]},
+   cause:{lead:"Unless the architecture",tail:"robust and streamlined"},result:{lead:"the system",tail:"during yesterday's stress test"},
+   _c:"were",_r:"would have collapsed",cOpts:["were", "is", "had been", "will be"],rOpts:["would have collapsed", "would collapse", "will collapse", "collapsed"]},
   {id:"q57",type:"Mixed 2/3 (Present -> Past)",
    cause:{lead:"Providing that the paradigm",tail:"as secure as they claim"},result:{lead:"it",tail:"the malware injection last night"},
-   _c:"is",_r:"should have blocked",cOpts:["is", "was", "had been", "will be"],rOpts:["should have blocked", "should block", "will block", "blocked"]},
+   _c:"were",_r:"should have blocked",cOpts:["were", "is", "was", "will be"],rOpts:["should have blocked", "should block", "will block", "blocked"]},
   {id:"q58",type:"Mixed 2/3 (Present -> Past)",
    cause:{lead:"On condition that the source code",tail:"completely opaque"},result:{lead:"the rival corporation",tail:"the algorithms"},
    _c:"were",_r:"could never have stolen",cOpts:["were", "is", "had been", "will be"],rOpts:["could never have stolen", "could never steal", "can never steal", "never stole"]},
@@ -376,6 +375,8 @@ let mySel = null;       // my selected option for current question
 let mySubmitted = false;
 let offline = false;
 let pollTimer = null;
+let nextRevealed = false;
+let autoAdvanceTimer = null;
 let lastRenderedIdx = -1;
 
 const $ = id => document.getElementById(id);
@@ -495,7 +496,7 @@ function renderQuestion(){
   $('feedback').className='feedback'; $('feedback').innerHTML='';
   $('causeStatus').className='partner-status hide'; $('resultStatus').className='partner-status hide';
   $('submitBtn').classList.remove('hide'); $('submitBtn').disabled=false; $('submitBtn').textContent='Submit My Answer';
-  $('nextBtn').classList.add('hide');
+  clearInterval(autoAdvanceTimer);
   $('scorePill').textContent = score + ' pts';
 }
 
@@ -603,6 +604,8 @@ async function updateFromState(){
 
     // if server advanced past what we've rendered, move on
     if(st.idx > idx){
+      clearInterval(autoAdvanceTimer);
+      nextRevealed=false;
       idx = st.idx;
       if(idx >= round.length){ finish(); return; }
       renderQuestion();
@@ -640,26 +643,34 @@ function showPartnerResult(partner){
   $(statusId).textContent = partner.ok ? '✓ Partner correct (+5)' : '✗ Partner incorrect';
 }
 
-let nextRevealed=false;
 function revealNext(){
   if(nextRevealed) return; nextRevealed=true;
   const fb=$('feedback');
-  // summarise the joint result
+  const finishing = idx >= round.length-1;
+  // summarise the joint result, then auto-advance after a 3s pause
   fb.className='feedback show good';
-  fb.innerHTML='<strong>Both players answered.</strong> Tap Next when you\'re ready — you advance together.';
-  $('nextBtn').classList.remove('hide');
-  if(idx >= round.length-1) $('nextBtn').textContent='Finish ✦';
+  let secs=3;
+  const verb = finishing ? 'Finishing' : 'Next question';
+  const paint=()=>{ fb.innerHTML='<strong>Both players answered.</strong> '+verb+' in '+secs+'…'; };
+  paint();
+  clearInterval(autoAdvanceTimer);
+  autoAdvanceTimer=setInterval(()=>{
+    secs--;
+    if(secs<=0){ clearInterval(autoAdvanceTimer); doAdvance(); return; }
+    paint();
+  },1000);
 }
 
-/* ========= ADVANCE (shared) ========= */
-async function next(){
-  if(offline){ return nextOffline(); }
-  $('nextBtn').disabled=true; $('nextBtn').textContent='Waiting…';
+/* ========= ADVANCE (shared, automatic) ========= */
+async function doAdvance(){
+  if(offline){ return; } // offline uses its own button-driven flow
   let res;
   try{
     res = await api('POST', {action:'advance', teamNo, clientId, fromIdx:idx});
-  }catch(e){ $('nextBtn').disabled=false; $('nextBtn').textContent='Next Question →'; toast("Try again."); return; }
-  $('nextBtn').disabled=false;
+  }catch(e){
+    // transient — the regular state poll will still pick up the advance
+    return;
+  }
   if(res && res.ok){
     nextRevealed=false;
     if(res.finished || res.idx>=round.length){ idx=res.idx; finish(); return; }
@@ -696,10 +707,19 @@ function submitOffline(){
   $('resultStatus').className='partner-status '+(rOk?'ok':'bad'); $('resultStatus').textContent=rOk?'✓ Result correct (+5)':'✗ Result → '+q._r;
   $('scorePill').textContent=score+' pts';
   const fb=$('feedback');
-  fb.className='feedback show '+((cOk&&rOk)?'good':'bad');
-  fb.innerHTML = (cOk&&rOk)?'<strong>✓ Perfect!</strong> +10 points.':'<strong>Keep going — check the highlighted answers.</strong>';
-  $('submitBtn').classList.add('hide'); $('nextBtn').classList.remove('hide');
-  if(idx>=round.length-1) $('nextBtn').textContent='Finish ✦';
+  const finishing = idx >= round.length-1;
+  let secs=3;
+  const verb = finishing ? 'Finishing' : 'Next question';
+  const paint=()=>{ fb.className='feedback show '+((cOk&&rOk)?'good':'bad');
+    fb.innerHTML = ((cOk&&rOk)?'<strong>✓ Perfect!</strong> +10 points. ':'<strong>Check the highlighted answers. </strong>')+verb+' in '+secs+'…'; };
+  paint();
+  $('submitBtn').classList.add('hide');
+  clearInterval(autoAdvanceTimer);
+  autoAdvanceTimer=setInterval(()=>{
+    secs--;
+    if(secs<=0){ clearInterval(autoAdvanceTimer); nextOffline(); return; }
+    paint();
+  },1000);
 }
 function nextOffline(){
   offSelCause=null; offSelResult=null; offAnswered=false;
@@ -777,16 +797,29 @@ $('joinBtn').onclick = async ()=>{
 };
 
 $('submitBtn').onclick = submit;
-$('nextBtn').onclick = next;
 $('againBtn').onclick = async ()=>{
-  nextRevealed=false;
-  if(offline){ offlinePrepare(); $('done').classList.add('hide'); $('game').classList.remove('hide'); renderQuestion(); return; }
-  // rejoin same team to get a fresh shared round (teacher reset usually precedes this)
+  nextRevealed=false; clearInterval(autoAdvanceTimer);
+  if(offline){
+    offlinePrepare();           // fresh shuffled round, idx=0, score=0
+    $('done').classList.add('hide'); $('game').classList.remove('hide');
+    renderQuestion(); return;
+  }
+  // Online: ask the server for a brand-new round for this team and reset the score.
+  $('againBtn').disabled=true; $('againBtn').textContent='Restarting…';
   let res;
-  try{ res = await api('POST', {action:'join', teamNo, clientId}); }catch(e){}
-  if(res && res.ok){ round=res.round; idx=res.idx||0; score=0; }
+  try{ res = await api('POST', {action:'restart', teamNo, clientId}); }catch(e){}
+  $('againBtn').disabled=false; $('againBtn').textContent='Play Again';
+  if(res && res.ok){
+    round = res.round; idx = res.idx || 0; score = 0;
+  }else{
+    toast("Couldn't restart — ask your teacher to Reset.");
+    return;
+  }
+  mySel=null; mySubmitted=false;
+  $('finalScore').textContent='0';
   $('done').classList.add('hide'); $('game').classList.remove('hide');
-  renderQuestion(); startPolling();
+  renderQuestion();
+  startPolling();
 };
 </script>
 </body>
