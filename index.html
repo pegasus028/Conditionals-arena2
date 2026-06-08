@@ -76,11 +76,13 @@
   .blank{display:inline-block;min-width:96px;border-bottom:3px solid var(--gold);text-align:center;font-weight:600;color:#000;padding:0 4px}
   .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
   .opt{font-family:'Space Mono',monospace;font-size:14px;padding:11px 8px;border:2px solid var(--ink);border-radius:9px;
-       background:var(--paper);cursor:pointer;text-align:center;transition:all .12s}
-  .opt.sel{background:var(--ink);color:var(--paper)}
-  .opt.right{background:var(--green);color:#fff;border-color:var(--green)}
-  .opt.wrong{background:var(--red);color:#fff;border-color:var(--red)}
+       background:var(--paper);color:var(--ink);-webkit-text-fill-color:var(--ink);-webkit-appearance:none;appearance:none;
+       cursor:pointer;text-align:center;transition:all .12s}
+  .opt.sel{background:var(--ink);color:var(--paper);-webkit-text-fill-color:var(--paper)}
+  .opt.right{background:var(--green);color:#fff;-webkit-text-fill-color:#fff;border-color:var(--green)}
+  .opt.wrong{background:var(--red);color:#fff;-webkit-text-fill-color:#fff;border-color:var(--red)}
   .opts.locked .opt{cursor:default}
+  .opt:disabled{color:var(--ink);-webkit-text-fill-color:var(--ink);opacity:.5}
   .partner-status{margin-top:10px;font-size:12px;letter-spacing:.05em;font-weight:700}
   .partner-status.pending{color:var(--gold-deep)} .partner-status.ok{color:var(--green)} .partner-status.bad{color:var(--red)}
 
@@ -496,7 +498,7 @@ function renderQuestion(){
   $('feedback').className='feedback'; $('feedback').innerHTML='';
   $('causeStatus').className='partner-status hide'; $('resultStatus').className='partner-status hide';
   $('submitBtn').classList.remove('hide'); $('submitBtn').disabled=false; $('submitBtn').textContent='Submit My Answer';
-  clearInterval(autoAdvanceTimer);
+  clearTimeout(autoAdvanceTimer);
   $('scorePill').textContent = score + ' pts';
 }
 
@@ -604,7 +606,7 @@ async function updateFromState(){
 
     // if server advanced past what we've rendered, move on
     if(st.idx > idx){
-      clearInterval(autoAdvanceTimer);
+      clearTimeout(autoAdvanceTimer);
       nextRevealed=false;
       idx = st.idx;
       if(idx >= round.length){ finish(); return; }
@@ -647,18 +649,11 @@ function revealNext(){
   if(nextRevealed) return; nextRevealed=true;
   const fb=$('feedback');
   const finishing = idx >= round.length-1;
-  // summarise the joint result, then auto-advance after a 3s pause
+  // show the joint result, then auto-advance after a 1s pause
   fb.className='feedback show good';
-  let secs=3;
-  const verb = finishing ? 'Finishing' : 'Next question';
-  const paint=()=>{ fb.innerHTML='<strong>Both players answered.</strong> '+verb+' in '+secs+'…'; };
-  paint();
-  clearInterval(autoAdvanceTimer);
-  autoAdvanceTimer=setInterval(()=>{
-    secs--;
-    if(secs<=0){ clearInterval(autoAdvanceTimer); doAdvance(); return; }
-    paint();
-  },1000);
+  fb.innerHTML='<strong>Both players answered.</strong> '+(finishing?'Finishing…':'Next question…');
+  clearTimeout(autoAdvanceTimer);
+  autoAdvanceTimer=setTimeout(doAdvance, 1000);
 }
 
 /* ========= ADVANCE (shared, automatic) ========= */
@@ -708,18 +703,11 @@ function submitOffline(){
   $('scorePill').textContent=score+' pts';
   const fb=$('feedback');
   const finishing = idx >= round.length-1;
-  let secs=3;
-  const verb = finishing ? 'Finishing' : 'Next question';
-  const paint=()=>{ fb.className='feedback show '+((cOk&&rOk)?'good':'bad');
-    fb.innerHTML = ((cOk&&rOk)?'<strong>✓ Perfect!</strong> +10 points. ':'<strong>Check the highlighted answers. </strong>')+verb+' in '+secs+'…'; };
-  paint();
+  fb.className='feedback show '+((cOk&&rOk)?'good':'bad');
+  fb.innerHTML = ((cOk&&rOk)?'<strong>✓ Perfect!</strong> +10 points. ':'<strong>Check the highlighted answers. </strong>')+(finishing?'Finishing…':'Next question…');
   $('submitBtn').classList.add('hide');
-  clearInterval(autoAdvanceTimer);
-  autoAdvanceTimer=setInterval(()=>{
-    secs--;
-    if(secs<=0){ clearInterval(autoAdvanceTimer); nextOffline(); return; }
-    paint();
-  },1000);
+  clearTimeout(autoAdvanceTimer);
+  autoAdvanceTimer=setTimeout(nextOffline, 1000);
 }
 function nextOffline(){
   offSelCause=null; offSelResult=null; offAnswered=false;
@@ -798,7 +786,7 @@ $('joinBtn').onclick = async ()=>{
 
 $('submitBtn').onclick = submit;
 $('againBtn').onclick = async ()=>{
-  nextRevealed=false; clearInterval(autoAdvanceTimer);
+  nextRevealed=false; clearTimeout(autoAdvanceTimer);
   if(offline){
     offlinePrepare();           // fresh shuffled round, idx=0, score=0
     $('done').classList.add('hide'); $('game').classList.remove('hide');
